@@ -20,11 +20,12 @@
 </p>
 
 doppler is a C99 DSP library: NCO, FIR filter, FFT, polyphase resampler,
-DDC, and NATS-based signal streaming. Python and Rust wrap the same C core —
-no second implementation, no divergence, full SIMD throughput from any
-language.
+DDC, NATS-based signal streaming, and a scenario-driven waveform generator
+(`wfmgen`) with byte-identical CLI/Python/C parity. Python and Rust wrap the
+same C core — no second implementation, no divergence, full SIMD throughput
+from any language.
 
-**Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md)
+**Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md)
 
 **API Reference** — [C API](https://github.com/doppler-dsp/doppler/blob/main/docs/c-api/files.md) · [Python: FFT](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-fft.md) · [Python: Spectral](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-spectral.md) · [Python: Waveform](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-wfmgen.md) · [Python: Resample](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-resample.md) · [Python: Filter](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-filter.md) · [Python: Measurement](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-measure.md) · [Python: DDC](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-ddc.md) · [Python: Accumulator](https://github.com/doppler-dsp/doppler/blob/main/docs/api/python-accumulator.md)
 
@@ -54,6 +55,15 @@ import numpy as np
 
 x = np.random.randn(1024).astype(np.complex64)
 X = FFT(1024).execute_cf32(x)
+```
+
+**Waveform**
+
+```python
+from doppler.wfm import Synth
+
+synth = Synth(type="qpsk", fs=1e6, snr=12.0, snr_mode="esno", sps=8, seed=1)
+iq = synth.steps(4096)   # complex64 ndarray
 ```
 
 **C**
