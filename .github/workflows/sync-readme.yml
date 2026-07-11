@@ -1,0 +1,39 @@
+name: Sync profile README from doppler
+
+# Keeps profile/README.md in step with doppler-dsp/doppler's README.md.
+# Runs on a schedule rather than a push trigger: README.md lives in a
+# different repo, so there's no push event *here* to react to, and
+# polling avoids needing a cross-repo write token — the default
+# GITHUB_TOKEN only needs write access to this repo, which it already
+# has. Run scripts/sync_readme.py manually (workflow_dispatch) right
+# after a doppler README.md change if the page needs to update sooner
+# than the next scheduled run.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync profile/README.md from doppler's README.md
+        run: python3 scripts/sync_readme.py
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --quiet -- profile/README.md; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add profile/README.md
+          git commit -m "docs: sync profile README from doppler-dsp/doppler"
+          git push
