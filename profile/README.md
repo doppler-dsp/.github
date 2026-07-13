@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/doppler-dsp/doppler/main/docs/assets/wordmark.png?v=3" alt="doppler — signal, shifted" width="560">
 </p>
 
-<p align="center"><strong>Dead-simple, ultra-fast digital signal processing.</strong></p>
+<p align="center"><strong>Practical, portable, performant digital signal processing.</strong></p>
 
 <p align="center">
   <a href="https://github.com/doppler-dsp/doppler/actions/workflows/ci.yml"><img src="https://github.com/doppler-dsp/doppler/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -19,11 +19,11 @@
   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
 </p>
 
-doppler is a C99 DSP library: NCO, FIR filter, FFT, polyphase resampler,
-DDC, NATS-based signal streaming, and a scenario-driven waveform generator
-(`wfmgen`) with byte-identical CLI/Python/C parity. Python and Rust wrap the
-same C core — no second implementation, no divergence, full SIMD throughput
-from any language.
+doppler is a C99 DSP library — NCO, FIR, FFT, polyphase resampling, DDC,
+AGC and more — with file, buffer, and NATS-based streaming, and a
+scenario-driven waveform generator (`wfmgen`) with byte-identical
+CLI/Python/C parity. Python and Rust wrap the same C core — no second
+implementation, no divergence, full SIMD throughput from any language.
 
 **Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md)
 
@@ -45,9 +45,21 @@ On a Ryzen 7 AI 350 (`-O2`): NCO raw accumulator ~15 GSa/s, LO CF32
 polyphase resampler (2× decim) ~70 MSa/s. Run `make bench` to measure
 on your hardware.
 
+<!-- quickstart:start -->
+
 ## Quick start
 
-**Python**
+See [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/quickstart.md) for the full walkthrough.
+
+### Python
+
+**Install**
+
+```bash
+pip install doppler-dsp
+```
+
+**Compute FFT**
 
 ```python
 from doppler.spectral import FFT
@@ -55,31 +67,82 @@ import numpy as np
 
 x = np.random.randn(1024).astype(np.complex64)
 X = FFT(1024).execute_cf32(x)
+print(f"FFT: {len(x)} samples in -> {X.shape[0]} complex64 bins out")
 ```
 
-**Waveform**
+**Create a Waveform**
 
 ```python
 from doppler.wfm import Synth
 
 synth = Synth(type="qpsk", fs=1e6, snr=12.0, snr_mode="esno", sps=8, seed=1)
 iq = synth.steps(4096)   # complex64 ndarray
+print(f"generated {len(iq)} QPSK samples")
 ```
 
-**C**
+### C
+
+> [!TIP]
+> Don't have `jbx` yet? `. <(curl -sSL https://just-buildit.github.io/get-jb.sh)`
+
+**Install**
+
+Get `libdoppler.a`/`libdoppler.so` plus headers, ready to link, in one command:
+
+```bash
+jbx get-doppler
+```
+
+**Compute FFT**
 
 ```c
+/* example.c */
+
+#include <complex.h>
+#include <stdio.h>
 #include <fft/fft_core.h>
 
-fft_state_t *fft = fft_create(1024, -1, 1);  /* n, sign, nthreads */
-fft_execute_cf32(fft, in, 1024, out);        /* in,out: float complex[1024] */
-fft_destroy(fft);
+int main(void)
+{
+  float complex in[1024]  = { 0 };   /* fill with your samples */
+  float complex out[1024];
+
+  fft_state_t *fft = fft_create(1024, -1, 1);  /* n, sign, nthreads */
+  fft_execute_cf32(fft, in, 1024, out);        /* in,out: float complex[1024] */
+  fft_destroy(fft);
+  printf("FFT: 1024 samples in -> 1024 complex bins out\n");
+  return 0;
+}
 ```
+
+**Compile and run**
+
+```bash
+cc example.c -I "$HOME/.local/doppler/include" "$HOME/.local/doppler/lib/libdoppler.a" -lm -o example
+./example
+```
+
+**Other install methods**
+
+Prefer a custom prefix or no `jbx`? Grab a
+[pre-built release tarball](docs/install/c.md#install-from-a-release-tarball) by
+hand — no toolchain, no building doppler itself — and extract it to
+`$PREFIX`; you get the same `libdoppler.a`/`libdoppler.so` plus headers.
+See [C Library](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/install/c.md) for `find_package`/`pkg-config` integration
+and building from source.
+
+<!-- quickstart:end -->
 
 ## Build
 
+> [!TIP]
+> Don't have `jbx` yet? `make install-deps` bootstraps it for you. (Or by
+> hand: `. <(curl -sSL https://just-buildit.github.io/get-jb.sh)`.)
+
 ```bash
-jbx install-deps        # install system deps (detects OS/distro)
+git clone https://github.com/doppler-dsp/doppler
+cd doppler
+make install-deps       # bootstrap jbx (if needed) + install system deps
 make                    # C library
 make pyext              # + Python bindings
 make test               # CTest suite
