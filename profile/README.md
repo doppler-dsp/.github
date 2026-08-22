@@ -27,12 +27,12 @@ scenario-driven waveform generator (`wfmgen`) with byte-identical
 CLI/Python/C parity. Python and Rust wrap the same C core — no second
 implementation, no divergence, full SIMD throughput from any language.
 
-**New here?** Start with [Start Here](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/start-here.md) — a one-page map from
+**New here?** Start with [Start Here](https://github.com/doppler-dsp/doppler/blob/main/docs/start-here.md) — a one-page map from
 "what are you trying to do" to the right doc.
 
-**Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/architecture.md) · [Gallery](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/gallery/index.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/guide/wfmgen/index.md) · [Design](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/design/index.md) · [Contributing](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/dev/index.md)
+**Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Gallery](https://github.com/doppler-dsp/doppler/blob/main/docs/gallery/index.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md) · [Design](https://github.com/doppler-dsp/doppler/blob/main/docs/design/index.md) · [Contributing](https://github.com/doppler-dsp/doppler/blob/main/docs/dev/index.md)
 
-**API Reference** — [Full Python + C API index](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/api/index.md)
+**API Reference** — [Full Python + C API index](https://github.com/doppler-dsp/doppler/blob/main/docs/api/index.md)
 
 ______________________________________________________________________
 
@@ -47,12 +47,12 @@ talks to a Python subscriber without surprises.
 
 On a Ryzen 7 AI 350 (`-O2`): NCO raw accumulator ~15 GSa/s, LO CF32
 ~1.8 GSa/s, FIR CF32 ~900 MSa/s. The full generated table lives in
-[Benchmarks](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/benchmarks.md); run
+[Benchmarks](https://github.com/doppler-dsp/doppler/blob/main/docs/benchmarks.md); run
 `make bench` to measure on your hardware.
 
 ## Quick start
 
-See [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/quickstart.md) for the full walkthrough.
+See [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) for the full walkthrough.
 
 ### Python
 
@@ -144,7 +144,7 @@ Prefer a custom prefix or no `jbx`? Grab a
 [pre-built release tarball](docs/install/c.md#install-from-a-release-tarball) by
 hand — no toolchain, no building doppler itself — and extract it to
 `$PREFIX`; you get the same `libdoppler.a`/`libdoppler.so` plus headers.
-See [C Library](https://github.com/doppler-dsp/doppler/blob/main/docs/docs/install/c.md) for `find_package`/`pkg-config` integration
+See [C Library](https://github.com/doppler-dsp/doppler/blob/main/docs/install/c.md) for `find_package`/`pkg-config` integration
 and building from source.
 
 ## Build
