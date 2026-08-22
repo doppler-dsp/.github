@@ -133,7 +133,8 @@ int main(void)
 **Compile and run**
 
 ```bash
-cc example.c -I "$HOME/.local/doppler/include" "$HOME/.local/doppler/lib/libdoppler.a" -lm -o example
+cc example.c -I "$HOME/.local/doppler/include" \
+   "$HOME/.local/doppler/lib/libdoppler.a" -lm -lpthread -o example
 ./example
 ```
 
@@ -168,7 +169,8 @@ Full docs: **[doppler-dsp.github.io/doppler](https://doppler-dsp.github.io/doppl
 
 ## Licensing
 
-MIT. The core C library is pure C99 and links only `-lm`. Its FFT uses the
+MIT. The core C library is pure C99 and links `-lm` and `-lpthread`. Its FFT
+uses the
 vendored pocketfft (BSD-3-Clause) for double precision and arbitrary sizes, and
 the vendored PFFFT (Pommier/FFTPACK, BSD) for the native single-precision SIMD
 path. The optional NATS stream component (`libdoppler_stream`) vendors
