@@ -23,11 +23,19 @@ SOURCE_URL = (
 )
 DEST_PATH = "profile/README.md"
 
-# LICENSE lives at the repo root; every other relative .md link in
-# README.md is written as if the file sat in docs/ (it's a byte-identical
-# twin of docs/index.md) and needs the docs/ prefix restored. Links appear
-# both as markdown `](target)` and raw HTML `href="target"` (the badge
-# anchors), so each rewrite covers both syntaxes.
+# Both LICENSE and every relative .md link are already written relative to
+# the REPO ROOT in README.md, so they only need the host prefix -- no path
+# is added. Links appear both as markdown `](target)` and raw HTML
+# `href="target"` (the badge anchors), so each rewrite covers both syntaxes.
+#
+# This used to insert `docs/`, from when README.md was a byte-identical twin
+# of docs/index.md and its links were docs-relative. doppler now GENERATES
+# README.md from docs/index.md's readme-sync region (scripts/gen_readme.py),
+# rewriting the links to repo-root form on the way -- so the compensation
+# became a double prefix and every navigation link on the org profile 404'd
+# as `docs/docs/...`. Measured 2026-08-22: 12 of 12 relative links were dead.
+# If README.md ever goes back to docs-relative links, fix it THERE; a second
+# opinion about paths in this script is what broke it the first time.
 _LICENSE_RE = re.compile(r'(\]\(|href=")LICENSE(\)|")')
 _RELATIVE_MD_RE = re.compile(r'(\]\(|href=")([a-zA-Z][^)"\s]*\.md)(\)|")')
 _BASE = "https://github.com/doppler-dsp/doppler/blob/main"
@@ -35,7 +43,7 @@ _BASE = "https://github.com/doppler-dsp/doppler/blob/main"
 
 def rewrite_links(text: str) -> str:
     text = _LICENSE_RE.sub(rf"\1{_BASE}/LICENSE\2", text)
-    text = _RELATIVE_MD_RE.sub(rf"\1{_BASE}/docs/\2\3", text)
+    text = _RELATIVE_MD_RE.sub(rf"\1{_BASE}/\2\3", text)
     return text
 
 
