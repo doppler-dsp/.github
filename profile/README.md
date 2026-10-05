@@ -32,7 +32,7 @@ implementation, no divergence, full SIMD throughput from any language.
 **New here?** Start with [Start Here](https://github.com/doppler-dsp/doppler/blob/main/docs/start-here.md) — a one-page map from
 "what are you trying to do" to the right doc.
 
-**Navigate** — [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Gallery](https://github.com/doppler-dsp/doppler/blob/main/docs/gallery/index.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md) · [Design](https://github.com/doppler-dsp/doppler/blob/main/docs/design/index.md) · [Contributing](https://github.com/doppler-dsp/doppler/blob/main/docs/dev/index.md)
+**Navigate** — [Python Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md) · [Architecture](https://github.com/doppler-dsp/doppler/blob/main/docs/architecture.md) · [Gallery](https://github.com/doppler-dsp/doppler/blob/main/docs/gallery/index.md) · [Examples](https://github.com/doppler-dsp/doppler/blob/main/docs/examples/index.md) · [Guides](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/index.md) · [Waveform Generator](https://github.com/doppler-dsp/doppler/blob/main/docs/guide/wfmgen/index.md) · [Design](https://github.com/doppler-dsp/doppler/blob/main/docs/design/index.md) · [Contributing](https://github.com/doppler-dsp/doppler/blob/main/docs/dev/index.md)
 
 **API Reference** — [Full Python + C API index](https://github.com/doppler-dsp/doppler/blob/main/docs/api/index.md)
 
@@ -69,11 +69,11 @@ print(f"FFT: {len(x)} samples in -> {X.shape[0]} complex64 bins out")
 > [!TIP]
 > **Using C?**
 >
-> `jbx get-doppler` gets `libdoppler.a`/`.so` and the headers in one
-> command — see [C Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart-c.md).
+> [`jbx get-doppler`](docs/install/c.md#get-jbx) gets `libdoppler.a`/`.so` and
+> the headers in one command — see [C Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart-c.md).
 
 Everything else — install options, the waveform generator, streaming,
-building from source — is in [Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md).
+building from source — is in [Python Quick Start](https://github.com/doppler-dsp/doppler/blob/main/docs/quickstart.md).
 
 ## Docs
 
